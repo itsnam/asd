@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Form, Input, Button, Modal, InputNumber, Space, message, Select } from 'antd';
 import { EditOutlined, DeleteOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { Product } from '../../types/product';
+import { InventoryItem } from '../../types/product';
 import instance from '../../axios';
 
 const { Search } = Input;
@@ -55,13 +56,17 @@ const ProductManagement: React.FC<ProductManagementProps> = ({ products: initial
       setProducts(response.data);
     } catch (error) {
       console.log(error);
-      message.error('Không thể tải danh sách sản phẩm');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: {
+    name: string;
+    description: string;
+    price: number;
+    type: string;
+  }) => {
     try {
       const validationErrors = validateProduct();
       if (validationErrors.length > 0) {
@@ -192,7 +197,7 @@ const ProductManagement: React.FC<ProductManagementProps> = ({ products: initial
   };
 
   const handleFieldChange = (index: number, value: string, type: 'image' | 'size' | 'color') => {
-    const trimmedValue = value.trim();
+    const trimmedValue = value;
     if (type === 'image') {
       const newImages = [...images];
       newImages[index] = trimmedValue;
@@ -523,10 +528,10 @@ const ProductManagement: React.FC<ProductManagementProps> = ({ products: initial
                     title: 'Tồn kho',
                     dataIndex: 'stock',
                     key: 'stock',
-                    render: (text: number, record: any, index: number) => (
+                    render: (value: number, _: InventoryItem, index: number) => (
                       <InputNumber
                         min={0}
-                        value={text}
+                        value={value}
                         onChange={(value) => {  
                           const newInventory = [...inventory];
                           newInventory[index].stock = value || 0;
@@ -539,10 +544,10 @@ const ProductManagement: React.FC<ProductManagementProps> = ({ products: initial
                     title: 'Đã bán',
                     dataIndex: 'sold',
                     key: 'sold',
-                    render: (text: number, record: any, index: number) => (
+                    render: (value: number, _: InventoryItem, index: number) => (
                       <InputNumber
                         min={0}
-                        value={text}
+                        value={value}
                         onChange={(value) => {
                           const newInventory = [...inventory];
                           newInventory[index].sold = value || 0;

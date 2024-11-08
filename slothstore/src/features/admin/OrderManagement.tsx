@@ -83,7 +83,6 @@ const OrderManagement: React.FC = () => {
       setOrders(sortedOrders);
     } catch (error) {
       console.log(error);
-      message.error('Không thể tải danh sách đơn hàng');
     } finally {
       setLoading(false);
     }
@@ -249,8 +248,7 @@ const OrderManagement: React.FC = () => {
           <p><strong>Họ và tên:</strong> {editingOrder?.address.fullName}</p>
           <p><strong>Số điện thoại:</strong> {editingOrder?.address.phoneNumber}</p>
           <p><strong>Địa chỉ:</strong> {editingOrder?.address.street}, {editingOrder?.address.ward}, {editingOrder?.address.district}, {editingOrder?.address.province}</p>
-          
-
+          <p><strong>Tổng tiền:</strong> {editingOrder?.total.toLocaleString()} VND</p>
           <div style={{ marginBottom: '16px' }}>
             <strong>Trạng thái: </strong>
             {statusOptions.map(option => 

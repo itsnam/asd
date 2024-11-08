@@ -153,7 +153,7 @@ const History: React.FC = () => {
               type="primary" 
               danger 
               onClick={() => handleChangeOrderStatus(selectedOrder!._id, 0)}
-              disabled={selectedOrder?.status === 0}
+              disabled={selectedOrder?.status === 0 || selectedOrder?.status === 3}
             >
               Huỷ đơn hàng
             </Button>
